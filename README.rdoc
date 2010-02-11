@@ -1,0 +1,30 @@
+= MongoMapper AutoIncrement
+
+
+== Installation
+    script/plugin install git://github.com/voraz/mongo-autoincrement.git
+
+
+== Usage
+    class Order
+      include MongoMapper::Document
+      include MongoAutoincrement
+
+      has_autoincrement :code, :zerofill=>10
+    end
+
+
+    > order = Order.new
+     => #<Order _id: 4b744d47421aa95b91000001, code: nil>
+    > order.save
+     => true
+    > order.code
+     => "0000000008"
+
+    > order2 = Order.new
+     => #<Order _id: 4b744d79421aa95b91000002, code: nil>
+    > order2.save
+     => true
+    > order2.code
+     => "0000000009"
+
