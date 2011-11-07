@@ -5,6 +5,7 @@ module MongoAutoincrement
     class << model
       attr_accessor :autoincrement_key
       attr_accessor :autoincrement_zerofill
+      attr_accessor :autoincrement_start
     end
     model.class_eval do
       model.extend( ClassMethods )
@@ -21,6 +22,7 @@ module MongoAutoincrement
 
       self.autoincrement_key = source_key
       self.autoincrement_zerofill = options[:zerofill] || 0
+      self.autoincrement_start = options[:start] || 1
 
       send :include, InstanceMethods
     end
@@ -43,7 +45,7 @@ module MongoAutoincrement
       end
 
       def get_succ
-        self.class.count==0 ? 1 : self.class.first(:select=>self.class.autoincrement_key.to_s, :order=>"#{self.class.autoincrement_key.to_s} desc").code.succ.to_i
+        self.class.count==0 ? self.class.autoincrement_start : self.class.first(:select=>self.class.autoincrement_key.to_s, :order=>"#{self.class.autoincrement_key.to_s} desc").code.succ.to_i
       end
 
       def is_unique(current_code)
