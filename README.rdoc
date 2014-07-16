@@ -10,7 +10,7 @@
       include MongoMapper::Document
       include MongoAutoincrement
 
-      has_autoincrement :code, :zerofill=>10
+      has_autoincrement :code, :zerofill=>10, :start=>3000
     end
 
 
@@ -19,12 +19,12 @@
     > order.save
      => true
     > order.code
-     => "0000000008"
+     => "0000003008"
 
     > order2 = Order.new
      => #<Order _id: 4b744d79421aa95b91000002, code: nil>
     > order2.save
      => true
     > order2.code
-     => "0000000009"
+     => "0000003009"
 
